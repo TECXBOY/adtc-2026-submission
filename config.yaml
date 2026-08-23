@@ -1,0 +1,48 @@
+# config.yaml — single source of truth for runtime settings
+# Edit this to swap models/quant levels during Step 2 candidate testing.
+
+hardware_budget:
+  ram_ceiling_gb: 7.0          # hard ceiling — never target exactly this
+  ram_safety_margin_gb: 1.0    # design against ceiling minus this margin
+  cpu_only: true                # no code path may assume GPU availability
+
+model:
+  # Fill in during Step 2 once a candidate is chosen. Leave all three
+  # candidates listed here during evaluation, then delete the unchosen two
+  # once DECISIONS.md records the final pick.
+  # gguf_path must match _runtime.model_path in metadata.json exactly.
+  active: "MODEL_NAME_PLACEHOLDER"
+  gguf_path: "model/MODEL_FILENAME_PLACEHOLDER.gguf"
+  quantization: "Q4_K_M"        # starting point — test lighter/heavier per brief
+  context_window: 4096
+  candidates:
+    - name: "MODEL_A_PLACEHOLDER"
+      gguf_path: "model/MODEL_A_PLACEHOLDER.gguf"
+    - name: "MODEL_B_PLACEHOLDER"
+      gguf_path: "model/MODEL_B_PLACEHOLDER.gguf"
+    - name: "MODEL_C_PLACEHOLDER"
+      gguf_path: "model/MODEL_C_PLACEHOLDER.gguf"
+
+rag:
+  corpus_path: "./corpus/wassce_bece_questions.jsonl"
+  vector_index_path: "./corpus/index"
+  embedding_model: "EMBEDDING_MODEL_PLACEHOLDER"  # must be local, no external API
+  top_k: 3
+  chunk_size_tokens: 256
+  chunk_overlap_tokens: 32
+
+inference:
+  max_new_tokens: 512
+  stream: true
+  temperature: 0.2               # low temp — favor correctness over variety
+  stop_sequences: []
+
+server:
+  host: "127.0.0.1"              # localhost only, never 0.0.0.0
+  port: 8000
+  allow_network: false           # hard flag — assert this at startup
+
+robustness:
+  max_input_chars: 4000
+  reject_empty_input: true
+  request_timeout_seconds: 60
