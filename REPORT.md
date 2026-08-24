@@ -90,3 +90,10 @@ Ghana, Sierra Leone, Liberia, and The Gambia. The content is hand-curated
 original material; it is not sourced from or adapted from actual past papers.
 The use case is grounded in a real, widely-taken regional examination system,
 not a generic claim.
+
+The optional LAN classroom mode (see Design Decisions above) directly
+addresses a second real-world constraint specific to this region: shared
+hardware. A single laptop running WASSCE Sage can serve an entire classroom
+of students over local WiFi, with no internet dependency and no per-device
+installation. This extends the African use case from individual offline access
+to classroom-scale access on shared resources.

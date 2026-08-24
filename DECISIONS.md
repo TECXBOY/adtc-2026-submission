@@ -91,6 +91,34 @@ Implication: do not claim or log an accuracy score anywhere in this repo.
 
 ---
 
+## LAN classroom mode — [DECIDE]
+**Decision:** Implement as an optional feature, default off.
+**What was built:** A `lan_mode` flag in `config.yaml` (default `false`).
+When `true`, the FastAPI server binds to `0.0.0.0` instead of `127.0.0.1`,
+prints the laptop's LAN IP to the console on startup, and opens CORS to
+allow any origin. A concurrency lock (`asyncio.Lock`) queues simultaneous
+requests from multiple devices rather than allowing them to collide on the
+single llama.cpp inference context. The frontend uses `window.location.origin`
+instead of a hardcoded IP, so it works correctly from both localhost and LAN
+clients without code changes.
+**Reasoning:** Under-resourced schools across West Africa often have one
+laptop per classroom, not one per student. LAN mode lets a teacher run the
+tutor on that one laptop and serve it to students' phones or other devices
+over classroom WiFi — still fully offline, no internet required. This was
+possible with minimal extra code because the backend was already architected
+as a standalone HTTP service (per BOB_ADDENDUM_pre-step4.md). The feature
+directly strengthens the African Use Case Bonus claim beyond individual
+offline access.
+**Safety:** Default is `false`. The competition evaluation requires zero
+network exposure — `lan_mode: true` would be disqualifying during judging.
+The config comment, DECISIONS.md entry, and README all make this explicit.
+`allow_network: false` remains a hard assertion that fires regardless of
+`lan_mode` — it is a separate flag governing whether the server itself makes
+outbound network calls (it never does).
+**Status:** Implemented and tested from a second device. Default confirmed
+`false` in committed config.yaml.
+
+---
+
 ## Fallback pivot (only fill in if triggered)
-**Triggered:** Yes / No
-**If yes — reasoning and what changed:** fill in
+**Triggered:** No

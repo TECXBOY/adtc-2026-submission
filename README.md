@@ -55,6 +55,25 @@ measured Sperf/Seff numbers from `adtc-profiler`.
 See `TASKS.md` for build sequence and progress. See `DECISIONS.md` for the
 model/quantization/corpus decisions and reasoning behind them.
 
+## LAN Classroom Mode (optional)
+
+One laptop can serve the tutor to multiple student devices on the same WiFi
+network — no internet required, everything stays local.
+
+**To enable:**
+1. In `config.yaml`, change `lan_mode: false` to `lan_mode: true`
+2. Start the server with `--host 0.0.0.0`:
+   ```bash
+   .venv/bin/python3 -m uvicorn backend.serve:app --host 0.0.0.0 --port 8000
+   ```
+3. The terminal prints your laptop's LAN address, e.g. `http://192.168.1.42:8000`
+4. Open that URL on any phone, tablet, or other laptop on the same network
+
+**To disable:** set `lan_mode: false` in `config.yaml` and restart the server.
+
+> **Competition rule:** `lan_mode` must be `false` for the ADTC evaluation.
+> The default is `false` — only flip it for demos, then flip it back.
+
 ## License
 TBD — confirm before submission; must permit competition use and
 redistribution of model weights via `download_model.sh`.
