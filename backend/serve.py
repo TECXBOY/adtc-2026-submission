@@ -16,13 +16,13 @@ Endpoints:
 import json
 import os
 import sys
-import time
 from pathlib import Path
 
 import yaml
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 # ── Resolve project root (one level up from backend/) ──────────────────────
@@ -69,13 +69,21 @@ print(f"Retriever ready: {len(retriever.records)} records", flush=True)
 # ── FastAPI app ─────────────────────────────────────────────────────────────
 app = FastAPI(title="WASSCE/BECE Offline Tutor", version="0.1.0")
 
-# Allow same-origin requests from the local UI only
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:8000", "http://localhost:8000"],
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+# Serve the chat UI from /
+FRONTEND_DIR = ROOT / "frontend"
+app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
+
+
+@app.get("/")
+def serve_ui():
+    return FileResponse(str(FRONTEND_DIR / "index.html"))
 
 
 # ── Request/response schemas ─────────────────────────────────────────────────

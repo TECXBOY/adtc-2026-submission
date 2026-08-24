@@ -40,10 +40,13 @@ moving to the next. No speculative full-stack building.
   - GET /healthz and GET /corpus/stats working
 
 ## 5. Minimal UI
-- [ ] Build chat interface
-- [ ] Wire to backend
-- [ ] Confirm full end-to-end flow with streaming output
-- **Checkpoint:** working demo, question in → streamed answer out
+- [x] Build chat interface (frontend/index.html — SSE client, streaming tokens)
+- [x] Wire to backend (served from GET / on same port 8000)
+- [x] Confirm full end-to-end: UI served, healthz OK, SSE stream live
+- **Checkpoint:** working demo, question in → streamed answer out ✅
+  - GET / → WASSCE/BECE Offline Tutor HTML
+  - GET /healthz → {"status":"ok","model":"SmolLM2-1.7B-Instruct"}
+  - POST /ask → SSE meta+tokens+done confirmed in Step 4
 
 ## 6. Robustness pass
 - [ ] Empty input
