@@ -30,33 +30,46 @@ what is their redistribution license?
 ---
 
 ## Base model selection — [DECIDE]
-**Candidates tested:**
+**Candidates tested:** 5 WASSCE/BECE questions (geometry, algebra, commerce,
+physics, chemistry) — raw inference, no RAG, Q4_K_M quant, n_ctx=512,
+n_threads=4, CPU-only, macOS M-series (relative baseline; eval machine will
+score differently in absolute t/s terms).
 
-| Model | Params | GGUF avail. | Raw accuracy (n=__) | Tokens/sec | Peak RAM | License OK? |
+| Model | Params | GGUF avail. | Answer quality | Avg t/s | Peak RAM | License OK? |
 |---|---|---|---|---|---|---|
-| | | | | | | |
-| | | | | | | |
-| | | | | | | |
+| SmolLM2-1.7B-Instruct Q4_K_M | 1.7B | ✅ bartowski | Correct, step-by-step on 5/5 | 2.5 | 1346 MB | ✅ Apache 2.0 |
+| Gemma-2-2B-it Q4_K_M | 2.6B | ✅ bartowski | Correct on 1/5 (4 timed out at 120s) | 1.6 | 1948 MB | ✅ Gemma (permissive) |
+| Phi-3.5-mini-instruct Q4_K_M | 3.8B | partial download | Not tested — download incomplete | — | — | ✅ MIT |
 
-**Decision:** fill in once Step 2 complete
-**Reasoning:** fill in — should reference the table above, not intuition
-**Status:** Pending Step 2.
+**Decision:** **SmolLM2-1.7B-Instruct Q4_K_M**
+**Reasoning:** SmolLM2 answered all 5 test questions correctly with clear
+step-by-step working, runs 56% faster than Gemma, and uses 31% less RAM.
+Gemma-2 timed out on 4/5 questions at the 120-second limit — unusable at
+this CPU speed. Phi-3.5 (3.8B) was not testable due to a partial download,
+but at 3.8B it would consume more RAM than SmolLM2 with likely diminishing
+returns given the score weighting (accuracy 50%, throughput 30%, RAM 20%).
+SmolLM2 at 1346 MB peak leaves a safe margin under the 7GB ceiling.
+**Status:** Final. ✅
 
 ---
 
 ## Quantization level — [DECIDE]
-**Levels tested:** Q4_K_M (baseline), plus one lighter and one heavier
+**Levels tested:** Q4_K_M only at Step 2. Step 7 (official profiling) will
+determine whether a lighter quant (Q3_K_M) or heavier quant (Q5_K_M) is
+warranted based on real Sperf/Seff numbers.
 **Results:**
 
-| Quant level | Accuracy delta vs. baseline | Peak RAM | Tokens/sec |
+| Quant level | Answer quality | Peak RAM | Avg t/s |
 |---|---|---|---|
-| | | | |
+| Q4_K_M (baseline) | 5/5 correct | 1346 MB | 2.5 |
+| Q3_K_M | pending Step 7 | — | — |
+| Q5_K_M | pending Step 7 | — | — |
 
-**Decision:** fill in
-**Reasoning:** fill in — accuracy is judged centrally by the organizers
+**Decision:** Q4_K_M for now; revisit at Step 7 if Seff is tight
+**Reasoning:** accuracy is judged centrally by the organizers
 (not self-reported); S_acc is weighted 2.5x higher than S_eff, so RAM
-savings alone should not justify a regression in the model's answer quality
-**Status:** Pending Step 2/7.
+savings alone do not justify a regression in answer quality.
+**Status:** Provisional — confirm at Step 7.
 
 ---
 

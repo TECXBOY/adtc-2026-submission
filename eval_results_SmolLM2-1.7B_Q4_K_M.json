@@ -1,0 +1,42 @@
+{
+  "model": "SmolLM2-1.7B Q4_K_M",
+  "avg_tps": 2.5,
+  "peak_ram_mb": 1346,
+  "results": [
+    {
+      "label": "BECE Geometry",
+      "tps": 1.8234877695531717,
+      "ram_mb": 1343.909888,
+      "ok": true,
+      "answer": "To find the height at which the ladder touches the wall, we can use the Pythagorean theorem. Here's the step-by-step working:\n\n1. Draw a diagram of the situation:\n   - Draw a right-angled triangle with the ladder as the hypotenuse (the side opposite the right angle).\n   - Label the ladder as 10m, the distance from the wall to the foot of the ladder as 6m, and the height at which the ladder touches the wall as h.\n\n2. Apply the Pythagorean theorem:\n   - The theorem states that in a right-angled triangle, the square of the length of the hypotenuse (c) is equal to the sum of the squares of the lengths of the other two sides (a and b).\n   - So, we have: c\u00b2 = a\u00b2 + b\u00b2\n\n3. Substitute the given values into the equation:\n   - c = 10m (the length of the ladder)"
+    },
+    {
+      "label": "BECE Algebra",
+      "tps": 2.8833007688128993,
+      "ram_mb": 1344.536576,
+      "ok": true,
+      "answer": "Step 1: Subtract 7 from both sides of the equation to isolate the term with x.\n3x + 7 - 7 = 22 - 7\n3x = 15\n\nStep 2: Divide both sides of the equation by 3 to solve for x.\n3x / 3 = 15 / 3\nx = 5\n\nThe solution to the equation is x = 5."
+    },
+    {
+      "label": "WASSCE Commerce",
+      "tps": 2.815629534368907,
+      "ram_mb": 1345.16736,
+      "ok": true,
+      "answer": "Step 1: Calculate the total cost of the oranges.\nCost = 50 oranges * 3 naira/orange = 150 naira\n\nStep 2: Calculate the total revenue from selling the oranges.\nRevenue = 50 oranges * 5 naira/orange = 250 naira\n\nStep 3: Calculate the profit.\nProfit = Revenue - Cost\nProfit = 250 naira - 150 naira = 100 naira\n\nStep 4: Calculate the profit percent.\nProfit percent = (Profit / Cost) * 100\nProfit percent = (100 naira / 150 naira) * 100\nProfit percent = 0.6667 * 100\nProfit percent = 66.67%"
+    },
+    {
+      "label": "WASSCE Physics",
+      "tps": 2.452165307283789,
+      "ram_mb": 1345.716224,
+      "ok": true,
+      "answer": "Newton's second law of motion states that the force applied to an object is equal to the mass of the object multiplied by its acceleration. Mathematically, this can be expressed as:\n\nF = ma\n\nWhere:\n- F is the force applied to the object\n- m is the mass of the object\n- a is the acceleration of the object"
+    },
+    {
+      "label": "WASSCE Chemistry",
+      "tps": 2.6738933821045716,
+      "ram_mb": 1346.342912,
+      "ok": true,
+      "answer": "To write the electron configuration of Calcium (atomic number 20), follow these steps:\n\n1. Write the number of protons (Z) for Calcium: 20\n2. Write the number of neutrons (A-Z) for Calcium: 20\n3. Write the number of electrons (n) for Calcium: 20\n4. Write the electron configuration for the first energy level (n=1): 1s\u00b2\n5. Write the electron configuration for the second energy level (n=2): 1s\u00b2 2s\u00b2 2p\u2076\n6. Write the electron configuration for the third energy level (n=3): 1s\u00b2 2s\u00b2 2p\u2076 3s\u00b2 3p\u2076\n7. Write the electron configuration for the fourth energy level (n=4): 1s\u00b2 2s\u00b2 2p\u2076 3s\u00b2 3p\u2076"
+    }
+  ]
+}

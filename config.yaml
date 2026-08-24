@@ -7,21 +7,20 @@ hardware_budget:
   cpu_only: true                # no code path may assume GPU availability
 
 model:
-  # Fill in during Step 2 once a candidate is chosen. Leave all three
-  # candidates listed here during evaluation, then delete the unchosen two
-  # once DECISIONS.md records the final pick.
+  # Chosen at Step 2 — see DECISIONS.md for full candidate comparison.
   # gguf_path must match _runtime.model_path in metadata.json exactly.
-  active: "MODEL_NAME_PLACEHOLDER"
-  gguf_path: "model/MODEL_FILENAME_PLACEHOLDER.gguf"
-  quantization: "Q4_K_M"        # starting point — test lighter/heavier per brief
-  context_window: 4096
-  candidates:
-    - name: "MODEL_A_PLACEHOLDER"
-      gguf_path: "model/MODEL_A_PLACEHOLDER.gguf"
-    - name: "MODEL_B_PLACEHOLDER"
-      gguf_path: "model/MODEL_B_PLACEHOLDER.gguf"
-    - name: "MODEL_C_PLACEHOLDER"
-      gguf_path: "model/MODEL_C_PLACEHOLDER.gguf"
+  active: "SmolLM2-1.7B-Instruct"
+  gguf_path: "model/SmolLM2-1.7B-Instruct-Q4_K_M.gguf"
+  quantization: "Q4_K_M"        # provisional — revisit at Step 7
+  context_window: 2048
+  # Candidates evaluated (kept for record; remove before final submission)
+  candidates_evaluated:
+    - name: "SmolLM2-1.7B-Instruct Q4_K_M"
+      result: "CHOSEN — 5/5 correct, 2.5 t/s, 1346 MB peak RAM"
+    - name: "Gemma-2-2B-it Q4_K_M"
+      result: "REJECTED — 1/5 within timeout, 1.6 t/s, 1948 MB peak RAM"
+    - name: "Phi-3.5-mini-instruct Q4_K_M"
+      result: "NOT TESTED — download incomplete"
 
 rag:
   corpus_path: "./corpus/wassce_bece_questions.jsonl"

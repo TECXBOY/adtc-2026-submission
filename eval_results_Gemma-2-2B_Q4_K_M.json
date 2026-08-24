@@ -1,0 +1,38 @@
+{
+  "model": "Gemma-2-2B Q4_K_M",
+  "avg_tps": 1.6,
+  "peak_ram_mb": 1948,
+  "results": [
+    {
+      "label": "BECE Geometry",
+      "tps": 0,
+      "ram_mb": 0,
+      "ok": false
+    },
+    {
+      "label": "BECE Algebra",
+      "tps": 1.584864671922509,
+      "ram_mb": 1947.836416,
+      "ok": true,
+      "answer": "Here's how to solve for x:\n\n1. **Isolate the x term:** \n   - Subtract 7 from both sides of the equation:\n     3x + 7 - 7 = 22 - 7\n     3x = 15\n\n2. **Solve for x:**\n   - Divide both sides by 3:\n     3x / 3 = 15 / 3\n     x = 5\n\n\n**Therefore, x = 5** \n"
+    },
+    {
+      "label": "WASSCE Commerce",
+      "tps": 0,
+      "ram_mb": 0,
+      "ok": false
+    },
+    {
+      "label": "WASSCE Physics",
+      "tps": 0,
+      "ram_mb": 0,
+      "ok": false
+    },
+    {
+      "label": "WASSCE Chemistry",
+      "tps": 0,
+      "ram_mb": 0,
+      "ok": false
+    }
+  ]
+}

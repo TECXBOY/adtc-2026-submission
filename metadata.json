@@ -25,13 +25,13 @@
     }
   ],
   "model": {
-    "name": "MODEL_NAME_PLACEHOLDER-Q4_K_M",
+    "name": "SmolLM2-1.7B-Instruct-Q4_K_M",
     "runtime": "llama.cpp",
     "quantization": "GGUF Q4_K_M",
-    "parameters_estimate": "PARAM_COUNT_PLACEHOLDER",
+    "parameters_estimate": "1.7B",
     "packaging": "binary_bundle"
   },
   "_runtime": {
-    "model_path": "model/MODEL_FILENAME_PLACEHOLDER.gguf"
+    "model_path": "model/SmolLM2-1.7B-Instruct-Q4_K_M.gguf"
   }
 }

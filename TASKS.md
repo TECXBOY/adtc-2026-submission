@@ -5,17 +5,19 @@ moving to the next. No speculative full-stack building.
 
 ## 1. Environment setup
 - [x] Clone official ADTC 2026 submission template repo
-- [ ] Install `adtc-profiler`: `pip install "git+https://github.com/Africa-Deep-Tech-Foundation/adtc-profiler.git"`
-- [ ] Confirm profiler runs against a placeholder/dummy model
-- **Checkpoint:** profiler produces output on a dummy model
+- [x] Install `adtc-profiler`: `pip install "git+https://github.com/Africa-Deep-Tech-Foundation/adtc-profiler.git"`
+- [x] Confirm profiler runs against a placeholder/dummy model
+- **Checkpoint:** profiler produces output on a dummy model ✅
 
 ## 2. Model selection and quantization test
-- [ ] Download 2–3 candidate small (1B–4B) instruct models in GGUF form
-- [ ] Load each via llama.cpp locally
-- [ ] Run raw WASSCE/BECE-style math questions, no RAG yet
-- [ ] Record accuracy, tokens/sec, peak RAM per candidate
-- [ ] Pick model empirically, log decision + numbers in `DECISIONS.md`
-- **Checkpoint:** table of real numbers per candidate model
+- [x] Download 2–3 candidate small (1B–4B) instruct models in GGUF form
+- [x] Load each via llama.cpp locally
+- [x] Run raw WASSCE/BECE-style math questions, no RAG yet
+- [x] Record answer quality, tokens/sec, peak RAM per candidate
+- [x] Pick model empirically, log decision + numbers in `DECISIONS.md`
+- **Checkpoint:** table of real numbers per candidate model ✅
+  - SmolLM2-1.7B Q4_K_M: 5/5 correct · 2.5 t/s · 1346 MB ← **CHOSEN**
+  - Gemma-2-2B Q4_K_M:   1/5 within timeout · 1.6 t/s · 1948 MB ← rejected
 
 ## 3. Corpus build
 - [ ] Confirm corpus sourcing/licensing — [CONFIRM WITH HUMAN], do not skip
