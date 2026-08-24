@@ -34,9 +34,20 @@ across five countries, not a generic "helps African students" framing.
 Full comparison table: see DECISIONS.md.
 
 ### Base model and quantization
-Fill in once Step 2 is complete — reference the candidate comparison table
-in DECISIONS.md. State the model chosen, why, and the quantization level
-selected with the accuracy/RAM tradeoff data that justified it.
+Three candidates were evaluated with 5 WASSCE/BECE questions each (CPU-only,
+Q4_K_M, no RAG) — see `DECISIONS.md` for the full comparison table.
+
+**SmolLM2-1.7B-Instruct Q4_K_M** was chosen:
+- Answered all 5/5 test questions correctly with step-by-step working
+- 2.5 t/s average throughput and 1,346 MB peak RAM on the dev machine
+- Gemma-2-2B answered only 1/5 within the time limit, used 1,948 MB peak RAM
+- SmolLM2's 1.7B parameter count stays comfortably under the 7GB RAM ceiling
+  even with retrieval context added to the prompt
+
+**Q4_K_M quantization** was retained after profiling: peak RSS measured at
+1,291 MB — leaving nearly 5.7 GB of headroom under the 7GB hard ceiling.
+A lighter quantization (Q3_K_M) would save ~200 MB but risks answer quality
+regression, which the scoring weights (accuracy 50%) do not justify.
 
 ### RAG over fine-tuning
 Chose retrieval-augmented generation over the fixed WASSCE/BECE corpus

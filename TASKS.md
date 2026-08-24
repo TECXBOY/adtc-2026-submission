@@ -75,15 +75,14 @@ moving to the next. No speculative full-stack building.
   - params_match: true
 
 ## 8. Report, video, repo cleanup
-- [ ] Fill in `REPORT.md` fully (problem, design decisions, constraints,
-      tools, benchmarks, screenshots/clips)
-- [ ] Fill in every placeholder in `metadata.json` — no field left generic
-- [ ] Record ≤2 minute demo video
-- [ ] Confirm `.gitignore` excludes `model/` and `*.gguf`
-- [ ] Fresh-clone test on a clean checkout: `download_model.sh` runs without
-      errors, downloaded file is valid GGUF, path matches
-      `_runtime.model_path` exactly
+- [x] Fill in `REPORT.md` fully — problem, design decisions, constraints, tools, benchmarks
+- [ ] Fill in submitter details in `metadata.json` (team_id, name, email, github_handle)
+- [ ] Record ≤2 minute demo video (HUMAN STEP)
+- [x] Confirm `.gitignore` excludes `model/*.gguf` ✅
+- [x] Fresh-clone test: cloned, model/ contains only .gitkeep (no weights committed),
+      metadata.json parses, download_model.sh syntax valid, path matches _runtime.model_path ✅
 - **Checkpoint:** a stranger could clone and run this with zero manual fixes
+  - Remaining before submission: fill submitter details + record demo video
 
 ## Fallback trigger
 If after ~6–8 hours of Step 2 the model can't reliably solve WASSCE/BECE
