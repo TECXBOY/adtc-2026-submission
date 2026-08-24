@@ -62,15 +62,17 @@ moving to the next. No speculative full-stack building.
   - tp_002: "A 12V battery connected to 4Ω resistor, calculate current" (WASSCE Science)
 
 ## 7. Official profiling
-- [ ] Run:
+- [x] Run:
   ```bash
-  bash download_model.sh
   adtc-profiler run --submission . --mode participant --output submission.json --skip-accuracy
-  cat submission.json
   ```
-- [ ] Record Sperf and Seff numbers into `REPORT.md`
-- [ ] Revisit quantization now if RAM/throughput is concerning
-- **Checkpoint:** real Sperf/Seff numbers, not estimates
+- [x] Record Sperf and Seff numbers into `REPORT.md`
+- [x] Quantization revisit: 1291 MB peak is well under 7GB ceiling — Q4_K_M stays
+- **Checkpoint:** real Sperf/Seff numbers, not estimates ✅
+  - Sperf: 1.8 t/s (dev machine: Intel i7-3667U @ 2.00GHz)
+  - Seff: 1291 MB peak RSS
+  - No thermal throttling
+  - params_match: true
 
 ## 8. Report, video, repo cleanup
 - [ ] Fill in `REPORT.md` fully (problem, design decisions, constraints,

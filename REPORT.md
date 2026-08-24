@@ -52,14 +52,20 @@ window; RAG grounds answers in real past questions with far less risk.
 - FastAPI + SSE for the local inference server (Step 4)
 
 ## Benchmarks
-Fill in from the real `adtc-profiler` run — do not estimate.
+Measured with `adtc-profiler run --submission . --mode participant --skip-accuracy`.
 Only Sperf and Seff are self-reported; accuracy is judged centrally by the
 organizers running the actual model — do not self-report or claim a score.
 
+**Development machine:** Intel Core i7-3667U @ 2.00GHz, 8GB RAM, macOS 14.8.4.
+Numbers on the ADTC Standard Laptop (i5 10th–12th gen / Ryzen 5) may differ.
+
 | Metric | Value |
 |---|---|
-| Peak RAM (Seff) | |
-| Tokens/sec (Sperf) | |
+| Peak RAM / Seff | 1291 MB (1.26 GB) |
+| Tokens/sec / Sperf | 1.8 t/s |
+| First token latency | 63,737 ms (63.7 s) — cold start, model load included |
+| Thermal throttling | None |
+| params_match | ✅ true (1,711,376,384 params) |
 
 ## Screenshots / clips
 Insert screenshots or short clips of the build in action here.
