@@ -392,7 +392,9 @@
 <script>
 'use strict';
 
-const API      = 'http://127.0.0.1:8000';
+// Use the same origin the page was loaded from — works for both
+// localhost (http://127.0.0.1:8000) and LAN mode (http://192.168.x.x:8000).
+const API      = window.location.origin;
 const chat     = document.getElementById('chat');
 const emptyEl  = document.getElementById('empty-state');
 const textarea = document.getElementById('question');
