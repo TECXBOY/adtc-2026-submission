@@ -40,8 +40,12 @@ Local Data & Model Assets
 ```
 
 ## Corpus
-Built from real WASSCE and BECE past questions (WAEC — West African
-Examinations Council). See `DECISIONS.md` for sourcing and licensing notes.
+50 original questions written to match real WASSCE/BECE format, syllabus
+topics, and difficulty levels — not sourced from actual past papers.
+30 Mathematics + 20 Integrated Science, spanning BECE and WASSCE level.
+Each record in `corpus/wassce_bece_questions.jsonl` carries
+`"source": "hand-curated"` for provenance tracking.
+See `DECISIONS.md` for the full corpus decision log.
 
 ## Report and benchmarks
 See `REPORT.md` for the full technical writeup, design decisions, and

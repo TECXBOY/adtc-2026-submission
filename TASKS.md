@@ -20,11 +20,14 @@ moving to the next. No speculative full-stack building.
   - Gemma-2-2B Q4_K_M:   1/5 within timeout · 1.6 t/s · 1948 MB ← rejected
 
 ## 3. Corpus build
-- [ ] Confirm corpus sourcing/licensing — [CONFIRM WITH HUMAN], do not skip
-- [ ] Compile WASSCE/BECE past-question corpus
-- [ ] Chunk corpus, build local embedding index
-- [ ] Validate retrieval quality on a handful of test questions
-- **Checkpoint:** retrieval returns relevant chunks for test queries
+- [x] Confirm corpus sourcing/licensing — hand-curated original content, no license blocker
+- [x] Compile WASSCE/BECE past-question corpus (50 questions → corpus/wassce_bece_questions.jsonl)
+- [x] Build local TF-IDF index (corpus/index/) via build_index.py
+- [x] Validate retrieval quality on test questions
+- **Checkpoint:** retrieval returns relevant chunks for test queries ✅
+  - "solve for x linear equation" → Q001 Linear Equations (0.278)
+  - "area of a circle radius" → Q009 Mensuration Circle (0.449)
+  - "Newton's law of motion" → Q036 Force and Motion (0.359)
 
 ## 4. RAG + inference pipeline
 - [ ] Wire retrieval into prompt construction

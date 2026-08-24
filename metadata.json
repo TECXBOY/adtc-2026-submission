@@ -12,7 +12,7 @@
   "cross_disciplinary_pairing": {
     "discipline": "education",
     "load_bearing": true,
-    "description": "Retrieval-augmented tutor grounded in real WAEC WASSCE/BECE past exam questions, giving step-by-step math and science solutions offline for students in low-connectivity areas across Nigeria, Ghana, Sierra Leone, Liberia, and The Gambia."
+    "description": "Retrieval-augmented tutor grounded in a corpus of questions written to match real WASSCE/BECE format and syllabus, giving step-by-step math and science solutions offline for students in low-connectivity areas across Nigeria, Ghana, Sierra Leone, Liberia, and The Gambia."
   },
   "test_prompts": [
     {

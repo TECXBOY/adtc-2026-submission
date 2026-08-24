@@ -45,9 +45,11 @@ Fine-tuning carries higher time cost and less certain accuracy gain in this
 window; RAG grounds answers in real past questions with far less risk.
 
 ## Tools used
-- llama.cpp / GGUF for on-device inference (required runtime for this track)
+- llama.cpp / GGUF + llama-cpp-python for on-device inference (required runtime)
 - `adtc-profiler` for official Sperf/Seff measurement
-- TOOLS_PLACEHOLDER — embedding model and vector index library once chosen
+- scikit-learn TF-IDF + cosine similarity for retrieval (offline, zero deps)
+- sentence-transformers `all-MiniLM-L6-v2` cached locally (embedding fallback)
+- FastAPI + SSE for the local inference server (Step 4)
 
 ## Benchmarks
 Fill in from the real `adtc-profiler` run — do not estimate.
@@ -63,9 +65,11 @@ organizers running the actual model — do not self-report or claim a score.
 Insert screenshots or short clips of the build in action here.
 
 ## African Use Case Bonus claim
-This project's corpus is built directly from real WASSCE (West African
-Senior School Certificate Examination) and BECE (Basic Education
-Certificate Examination) past questions — the actual exams sat by millions
-of students across Nigeria, Ghana, Sierra Leone, Liberia, and The Gambia.
-Once corpus sourcing is confirmed (see DECISIONS.md), name the specific
-source(s) here.
+This project's corpus consists of 50 original questions written to match
+the format, syllabus, and difficulty levels of WASSCE (West African Senior
+School Certificate Examination) and BECE (Basic Education Certificate
+Examination) — the actual exams sat by millions of students across Nigeria,
+Ghana, Sierra Leone, Liberia, and The Gambia. The content is hand-curated
+original material; it is not sourced from or adapted from actual past papers.
+The use case is grounded in a real, widely-taken regional examination system,
+not a generic claim.

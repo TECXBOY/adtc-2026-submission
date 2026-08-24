@@ -17,15 +17,25 @@ countries.
 
 ---
 
-## Corpus sourcing — [CONFIRM WITH HUMAN]
-**Question:** Which WASSCE/BECE past-question source(s) will be used, and
-what is their redistribution license?
-**Options considered:**
-- Official WAEC released past questions
-- Named OER (open educational resource) source
-**Decision:** PENDING — confirm before Step 3.
-**Reasoning:** fill in once confirmed
-**Status:** Blocking Step 3.
+## Corpus sourcing — [CONFIRMED] ✅
+**Source:** 50 original questions hand-written from scratch to match real
+WASSCE/BECE syllabus topics, phrasing conventions, and difficulty levels.
+Not sourced from or adapted from actual past papers.
+**License:** None required — original content, safe to commit directly.
+**Format:** `corpus/wassce_bece_questions.jsonl`, 50 records.
+Each record carries `"source": "hand-curated"` for provenance tracking.
+**Coverage:** 30 Mathematics + 20 Integrated Science, spanning BECE and
+WASSCE levels, core topics (algebra, geometry, mensuration, statistics,
+probability, trigonometry, sequences, states of matter, photosynthesis,
+forces, electricity, chemistry, biology).
+**Decision:** Use this hand-curated set as the corpus seed. Treat as the
+floor — expand topic/difficulty coverage if time allows after retrieval
+is validated (Step 3 checkpoint).
+**Reasoning:** Avoids any redistribution licensing risk while still
+grounding the African Use Case Bonus claim concretely — these questions
+are written to match the actual exams sat by millions of students across
+Nigeria, Ghana, Sierra Leone, Liberia, and The Gambia.
+**Status:** Final. ✅
 
 ---
 

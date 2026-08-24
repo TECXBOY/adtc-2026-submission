@@ -25,10 +25,11 @@ model:
 rag:
   corpus_path: "./corpus/wassce_bece_questions.jsonl"
   vector_index_path: "./corpus/index"
-  embedding_model: "EMBEDDING_MODEL_PLACEHOLDER"  # must be local, no external API
+  # Retriever: TF-IDF + cosine similarity (scikit-learn)
+  # Zero network calls, no model download, works offline on any Python 3.8+.
+  # Index built by build_index.py — re-run any time corpus changes.
+  retriever: "tfidf"        # options: tfidf (implemented), dense (future)
   top_k: 3
-  chunk_size_tokens: 256
-  chunk_overlap_tokens: 32
 
 inference:
   max_new_tokens: 512
