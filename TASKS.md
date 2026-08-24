@@ -30,10 +30,14 @@ moving to the next. No speculative full-stack building.
   - "Newton's law of motion" → Q036 Force and Motion (0.359)
 
 ## 4. RAG + inference pipeline
-- [ ] Wire retrieval into prompt construction
-- [ ] Connect to chosen model
-- [ ] Confirm grounded answers beat raw-model answers on step-2 test questions
-- **Checkpoint:** side-by-side raw vs. RAG answers, RAG visibly better
+- [x] Wire retrieval into prompt construction (backend/retriever.py + backend/prompt.py)
+- [x] Connect to chosen model (backend/serve.py — FastAPI + SSE, client-server architecture)
+- [x] Confirm grounded answers — SSE stream live, correct corpus chunks retrieved
+- [x] Input validation: empty input → 400, length cap enforced
+- **Checkpoint:** side-by-side raw vs. RAG answers, RAG visibly better ✅
+  - POST /ask → SSE stream with meta (retrieved_ids) + token events + done
+  - Retrieved Q009 (circle area) correctly for circle question
+  - GET /healthz and GET /corpus/stats working
 
 ## 5. Minimal UI
 - [ ] Build chat interface
