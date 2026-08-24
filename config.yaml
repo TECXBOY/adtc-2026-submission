@@ -42,6 +42,16 @@ server:
   port: 8000
   allow_network: false           # hard flag — assert this at startup
 
+  # ── LAN sharing ────────────────────────────────────────────────────────────
+  # COMPETITION RULE: lan_mode MUST be false for the ADTC submission.
+  # Setting it to true binds to 0.0.0.0 and makes the server reachable on
+  # the local WiFi network — useful for live demos from a phone or second
+  # laptop, but DISQUALIFYING if left on during evaluation.
+  #
+  # Flip to true for demos, flip back to false before submitting.
+  # Default: false — do not change this default.
+  lan_mode: false
+
 robustness:
   max_input_chars: 4000
   reject_empty_input: true

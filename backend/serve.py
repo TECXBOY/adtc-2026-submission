@@ -5,7 +5,9 @@ Architecture (per BOB_ADDENDUM_pre-step4.md):
   - This process owns the model and RAG pipeline entirely.
   - The UI (Step 5) is a pure HTTP client of this server.
   - No UI code is imported here; no model object is shared across processes.
-  - Bound to 127.0.0.1 only (config.yaml server.host) — localhost per competition rules.
+  - Default binding: 127.0.0.1 (localhost only, per competition rules).
+  - LAN mode: set server.lan_mode: true in config.yaml to bind to 0.0.0.0.
+    MUST be false for the ADTC submission — see config.yaml comment.
 
 Endpoints:
   POST /ask          — stream an answer (SSE)
@@ -13,8 +15,9 @@ Endpoints:
   GET  /corpus/stats — corpus metadata
 """
 
+import asyncio
 import json
-import os
+import socket
 import sys
 from pathlib import Path
 
@@ -41,6 +44,9 @@ assert not cfg["server"].get("allow_network", True), (
     "config.yaml: server.allow_network must be false"
 )
 
+LAN_MODE      = cfg["server"].get("lan_mode", False)
+HOST          = "0.0.0.0" if LAN_MODE else cfg["server"].get("host", "127.0.0.1")
+PORT          = cfg["server"].get("port", 8000)
 MODEL_PATH    = ROOT / cfg["model"]["gguf_path"]
 N_CTX         = cfg["model"].get("context_window", 2048)
 MAX_TOKENS    = cfg["inference"].get("max_new_tokens", 512)
@@ -66,15 +72,56 @@ print("Model loaded.", flush=True)
 retriever = TFIDFRetriever(index_dir=str(ROOT / cfg["rag"]["vector_index_path"]))
 print(f"Retriever ready: {len(retriever.records)} records", flush=True)
 
+# ── Inference lock — queue concurrent requests rather than colliding ─────────
+# llama.cpp is not re-entrant; a second call while one is in flight will
+# corrupt state. The asyncio lock ensures requests are processed one at a time.
+_inference_lock = asyncio.Lock()
+
+# ── LAN startup banner ───────────────────────────────────────────────────────
+def _local_ip() -> str:
+    """Best-effort: get the machine's LAN IP (not loopback)."""
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))   # doesn't actually send anything
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return "unknown"
+
+if LAN_MODE:
+    lan_ip = _local_ip()
+    print("", flush=True)
+    print("╔══════════════════════════════════════════════════╗", flush=True)
+    print("║  LAN MODE ENABLED                                ║", flush=True)
+    print(f"║  Reachable on your network at:                   ║", flush=True)
+    print(f"║  http://{lan_ip}:{PORT:<5}                          ║", flush=True)
+    print("║                                                  ║", flush=True)
+    print("║  ⚠ Set lan_mode: false before ADTC submission  ║", flush=True)
+    print("╚══════════════════════════════════════════════════╝", flush=True)
+    print("", flush=True)
+else:
+    print(f"Server: http://127.0.0.1:{PORT} (localhost only)", flush=True)
+
 # ── FastAPI app ─────────────────────────────────────────────────────────────
 app = FastAPI(title="WASSCE/BECE Offline Tutor", version="0.1.0")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8000", "http://localhost:8000"],
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
-)
+# CORS: in LAN mode allow any origin so phones/tablets on the network can reach
+# the UI. In localhost mode, restrict to known local origins.
+if LAN_MODE:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["GET", "POST"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://127.0.0.1:8000", "http://localhost:8000"],
+        allow_methods=["GET", "POST"],
+        allow_headers=["*"],
+    )
 
 # Serve the chat UI from /
 FRONTEND_DIR = ROOT / "frontend"
@@ -94,7 +141,11 @@ class AskRequest(BaseModel):
 # ── Endpoints ────────────────────────────────────────────────────────────────
 @app.get("/healthz")
 def healthz():
-    return {"status": "ok", "model": cfg["model"]["active"]}
+    return {
+        "status": "ok",
+        "model": cfg["model"]["active"],
+        "lan_mode": LAN_MODE,
+    }
 
 
 @app.get("/corpus/stats")
@@ -110,7 +161,7 @@ def corpus_stats():
 
 
 @app.post("/ask")
-def ask(req: AskRequest):
+async def ask(req: AskRequest):
     question = req.question
 
     # ── Input validation (robustness) ───────────────────────────────────────
@@ -127,28 +178,30 @@ def ask(req: AskRequest):
     messages  = build_prompt(question.strip(), retrieved)
 
     # ── Stream response as SSE ──────────────────────────────────────────────
-    def generate():
+    async def generate():
         # Opening SSE envelope — includes metadata for the UI
         meta = {
             "event": "meta",
-            "response_type": "full_solution",  # loose schema per addendum
+            "response_type": "full_solution",
             "retrieved_ids": [r["id"] for r in retrieved],
         }
         yield f"data: {json.dumps(meta)}\n\n"
 
-        try:
-            for chunk in llm.create_chat_completion(
-                messages=messages,
-                max_tokens=MAX_TOKENS,
-                temperature=TEMPERATURE,
-                stream=True,
-            ):
-                delta = chunk["choices"][0]["delta"].get("content", "")
-                if delta:
-                    yield f"data: {json.dumps({'event': 'token', 'text': delta})}\n\n"
-        except Exception as e:
-            yield f"data: {json.dumps({'event': 'error', 'detail': str(e)})}\n\n"
-        finally:
-            yield f"data: {json.dumps({'event': 'done'})}\n\n"
+        # Acquire lock — queue concurrent requests rather than crashing
+        async with _inference_lock:
+            try:
+                for chunk in llm.create_chat_completion(
+                    messages=messages,
+                    max_tokens=MAX_TOKENS,
+                    temperature=TEMPERATURE,
+                    stream=True,
+                ):
+                    delta = chunk["choices"][0]["delta"].get("content", "")
+                    if delta:
+                        yield f"data: {json.dumps({'event': 'token', 'text': delta})}\n\n"
+            except Exception as e:
+                yield f"data: {json.dumps({'event': 'error', 'detail': str(e)})}\n\n"
+            finally:
+                yield f"data: {json.dumps({'event': 'done'})}\n\n"
 
     return StreamingResponse(generate(), media_type="text/event-stream")
