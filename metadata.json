@@ -17,11 +17,11 @@
   "test_prompts": [
     {
       "prompt_id": "tp_001",
-      "prompt": "TEST_PROMPT_1_PLACEHOLDER — a WASSCE/BECE-style math question, chosen from your validated 'known good' demo set."
+      "prompt": "Solve x^2 - 7x + 12 = 0 by factorization. Show all working step by step."
     },
     {
       "prompt_id": "tp_002",
-      "prompt": "TEST_PROMPT_2_PLACEHOLDER — a WASSCE/BECE-style science question, chosen from your validated 'known good' demo set."
+      "prompt": "A 12V battery is connected to a 4 ohm resistor. Using Ohm's Law, calculate the current flowing in the circuit. Show your working."
     }
   ],
   "model": {

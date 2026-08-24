@@ -49,14 +49,17 @@ moving to the next. No speculative full-stack building.
   - POST /ask → SSE meta+tokens+done confirmed in Step 4
 
 ## 6. Robustness pass
-- [ ] Empty input
-- [ ] Very long input
-- [ ] Non-math input
-- [ ] Repeated rapid requests
-- [ ] Fix anything that crashes or OOMs
-- **Checkpoint:** 20+ varied prompts, zero crashes/OOMs
-- [ ] From this validated set, pick the 2 strongest prompts for
-      `metadata.json`'s `test_prompts` array
+- [x] Empty input → 400 "Question must not be empty."
+- [x] Whitespace-only input → 400 "Question must not be empty."
+- [x] Very long input (5000 chars) → 400 "exceeds maximum length"
+- [x] Non-math gibberish → answered gracefully, no crash
+- [x] Emoji-only input → answered gracefully, no crash
+- [x] 20 varied WASSCE/BECE prompts → all returned answers, zero crashes/OOMs
+- [x] Fix anything that crashes or OOMs — none found
+- **Checkpoint:** 20+ varied prompts, zero crashes/OOMs ✅
+- [x] Picked 2 strongest prompts for metadata.json test_prompts:
+  - tp_001: "Solve x^2 - 7x + 12 = 0 by factorization" (WASSCE Math)
+  - tp_002: "A 12V battery connected to 4Ω resistor, calculate current" (WASSCE Science)
 
 ## 7. Official profiling
 - [ ] Run:
